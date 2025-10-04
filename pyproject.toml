@@ -1,0 +1,33 @@
+[project]
+name = "agent-ethan-guide-mcp"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+  "fastmcp>=0.1",
+  "PyYAML>=6",
+  "requests>=2.31.0",
+]
+
+[project.scripts]
+agent-ethan-guide-mcp = "mcp_server:main"
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.4.0",
+  "pytest-asyncio>=0.21.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "."}
+py-modules = ["mcp_server"]
+
+[tool.setuptools.packages.find]
+include = ["mcp_app*"]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+mcp_app = ["**/*.yaml", "**/*.yml", "**/*.txt"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
