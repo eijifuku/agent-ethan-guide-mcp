@@ -30,8 +30,8 @@ Add the following to your MCP client configuration (Cursor, Claude Desktop, Clin
         "agent-ethan-guide-mcp"
       ],
       "env": {
-        "SETUP_RULEFILE": "AGENTS.md",
-        "SETUP_TMP_DIR": "./tmp"
+        "SETUP_RULEFILE": "/path/to/your/project/AGENTS.md",
+        "SETUP_TMP_DIR": "/path/to/your/project/tmp"
       }
     }
   }
@@ -53,19 +53,19 @@ Use the same JSON format.
 }
 ```
 
-`.gitignore` example:
-```
-tmp/
-AGENTS.md
-```
-
 ### 2. Restart Client
 
 Restart your MCP client to apply the configuration.
 
 ### 3. Run setup tool
 
-Execute setup tool via MCP client:
+Instruct in your MCP client's chat:
+
+```
+Please set up agent-ethan-guide-mcp v0.1.1
+```
+
+Or directly call the tool:
 
 ```
 setup(version="v0.1.1")
@@ -90,8 +90,8 @@ agent-ethan2 documentation and source code are now available. When you ask agent
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `SETUP_RULEFILE` | `AGENTS.md` | Path to rule file |
-| `SETUP_TMP_DIR` | `./tmp` | Download directory |
+| `SETUP_RULEFILE` | `/path/to/your-project/AGENTS.md` | Path to rule file |
+| `SETUP_TMP_DIR` | `/path/to/your-project/tmp` | Download directory |
 
 **Important**: When using relative paths, they are interpreted relative to the MCP client's startup directory. If you want to create files in different locations per project, specify absolute paths.
 
@@ -101,6 +101,12 @@ Check available versions on [GitHub releases page](https://github.com/eijifuku/a
 
 ### Examples
 
+Instruct in natural language via chat:
+```
+Please set up the latest version of agent-ethan2
+```
+
+Or directly call the tool:
 ```
 # Setup latest version
 setup(version="v0.1.1")

@@ -30,8 +30,8 @@ MCPクライアント（Cursor、Claude Desktop、Clineなど）の設定ファ�
         "agent-ethan-guide-mcp"
       ],
       "env": {
-        "SETUP_RULEFILE": "AGENTS.md",
-        "SETUP_TMP_DIR": "./tmp"
+        "SETUP_RULEFILE": "/path/to/your/project/AGENTS.md",
+        "SETUP_TMP_DIR": "/path/to/your/project/tmp"
       }
     }
   }
@@ -53,19 +53,19 @@ MCPクライアント（Cursor、Claude Desktop、Clineなど）の設定ファ�
 }
 ```
 
-`.gitignore`の例：
-```
-tmp/
-AGENTS.md
-```
-
 ### 2. クライアントを再起動
 
 設定を反映させるため、MCPクライアントを再起動します。
 
 ### 3. setupツールを実行
 
-MCPクライアント経由でsetupツールを実行：
+MCPクライアントのチャットで以下のように指示：
+
+```
+agent-ethan-mcp-guideのv0.1.1をセットアップしてください
+```
+
+または直接ツールを呼び出す場合：
 
 ```
 setup(version="v0.1.1")
@@ -90,8 +90,8 @@ agent-ethan2のドキュメントとソースコードが利用可能になり�
 
 | 変数名 | デフォルト | 説明 |
 |--------|-----------|------|
-| `SETUP_RULEFILE` | `AGENTS.md` | ルールファイルのパス |
-| `SETUP_TMP_DIR` | `./tmp` | ダウンロード先ディレクトリ |
+| `SETUP_RULEFILE` | `/path/to/your-project/AGENTS.md` | ルールファイルのパス |
+| `SETUP_TMP_DIR` | `/path/to/your-project/tmp` | ダウンロード先ディレクトリ |
 
 **重要**: 相対パスを使用する場合、MCPクライアントの起動ディレクトリからの相対パスとして解釈されます。プロジェクトごとに異なる場所に作成したい場合は、絶対パスを指定してください。
 
@@ -101,6 +101,12 @@ agent-ethan2の利用可能なバージョンは[GitHubのリリースページ]
 
 ### 使用例
 
+チャットで自然言語で指示：
+```
+agent-ethan2の最新版をセットアップしてください
+```
+
+または直接ツールを呼び出し：
 ```
 # 最新版をセットアップ
 setup(version="v0.1.1")
