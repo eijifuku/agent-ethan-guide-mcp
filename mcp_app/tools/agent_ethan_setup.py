@@ -84,20 +84,29 @@ class SetupTool:
         return None
 
     def _download_archive(self, version: str, archive_path: Path) -> Optional[Dict[str, Any]]:
-        url = f"https://github.com/eijifuku/agent-ethan2/archive/refs/tags/{version}.zip"
-        try:
-            with urlrequest.urlopen(url, timeout=30) as response:
-                with archive_path.open("wb") as fp:
-                    shutil.copyfileobj(response, fp)
-        except urlerror.HTTPError as exc:
-            if exc.code == 404:
-                return self._error(f"Version '{version}' was not found (HTTP 404).")
-            return self._error(f"HTTP error while downloading archive: {exc}")
-        except urlerror.URLError as exc:
-            return self._error(f"Network error while downloading archive: {exc}")
-        except OSError as exc:
-            return self._error(f"Failed to write archive to disk: {exc}")
-        return None
+        # Try multiple URL patterns for better compatibility
+        urls = [
+            f"https://github.com/eijifuku/agent-ethan2/archive/refs/tags/{version}.zip",
+            f"https://codeload.github.com/eijifuku/agent-ethan2/zip/refs/tags/{version}",
+        ]
+        
+        for url in urls:
+            try:
+                with urlrequest.urlopen(url, timeout=30) as response:
+                    with archive_path.open("wb") as fp:
+                        shutil.copyfileobj(response, fp)
+                return None  # Success
+            except urlerror.HTTPError as exc:
+                if exc.code == 404:
+                    continue  # Try next URL
+                return self._error(f"HTTP error while downloading archive: {exc}")
+            except urlerror.URLError as exc:
+                return self._error(f"Network error while downloading archive: {exc}")
+            except OSError as exc:
+                return self._error(f"Failed to write archive to disk: {exc}")
+        
+        # All URLs failed
+        return self._error(f"Version '{version}' was not found (HTTP 404).")
 
     def _extract_archive(self, archive_path: Path, destination: Path) -> Optional[Path]:
         with ZipFile(archive_path, "r") as zip_file:
